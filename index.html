@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Social Media Charts</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.6/Chart.bundle.min.js"></script>
+    <script src="data.js"></script>
+</head>
+<body>
+    <canvas id="myChart" width="1800" height="900"></canvas></div>
+    <script>
+        var ctx = document.getElementById('myChart').getContext('2d');
+
+        var colors = {
+            "fb-L": 'rgba(0, 0, 255, 1)',
+            "tw-F": 'rgba(50, 50, 255, 1)',
+            "tw-T": 'rgba(100, 100, 255, 1)',
+            "g+-F": 'rgba(255, 0, 0, 1)',
+            "yt-S": 'rgba(200, 0, 0, 1)',
+            "yt-V": 'rgba(200, 50, 50, 1)',
+            "yt-M": 'rgba(200, 100, 100, 1)'
+        };
+
+        var dataKeys = [
+            "fb-L",
+            "tw-F",
+            "tw-T",
+            "g+-F",
+            "yt-S",
+            "yt-V",
+            "yt-M"
+        ];
+
+        var dataDates = Object.keys(dataList);
+
+        var datasets = dataKeys.map(function (dataKey) {
+            return {
+                label: dataKey,
+                borderColor: colors[dataKey],
+                fill: false,
+                data: dataDates.map(function (dataDate) {
+                    return dataList[dataDate][dataKey];
+                })
+            };
+        });
+
+        var data = {
+            labels: dataDates,
+            datasets: datasets
+        };
+
+        var options = {
+            responsive: false,
+            scales: {
+                xAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Datum'
+                    },
+                    type: 'time',
+                    time: {
+                        displayFormats: {
+                            unit: 'day'
+                        }
+                    }
+                }],
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Anzahl'
+                    },
+                    type: 'logarithmic',
+                    ticks: {
+                        min: 50,
+                        max: 30000
+                    }
+                }]
+            }
+        };
+
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: data,
+            options: options
+        });
+    </script>
+</body>
+</html>
